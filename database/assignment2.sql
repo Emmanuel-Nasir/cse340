@@ -1,28 +1,31 @@
--- Insert a new record into the account table
-INSERT INTO account (first_name, last_name, email, password)
+-- insert Tony Stark's info into the account table
+INSERT INTO public.account (first_name, last_name, email, password)
 VALUES ('Tony', 'Stark', 'tony@starkent.com', 'Iam1ronM@n');
 
--- Update Tony Stark's record to change the account_type to 'Admin'
+-- modify the Stark record to account_type = Admin
 UPDATE account
 SET account_type = 'Admin'
-WHERE email = 'tony@starkent.com';
+WHERE account_id = 1;
 
--- Delete the Tony Stark record from the database
+-- delete the Stark record
 DELETE FROM account
-WHERE email = 'tony@starkent.com';
+WHERE first_name = 'Tony'
+AND account_id = 1;
 
--- Update GM Hummer description using PostgreSQL REPLACE function
+-- modify the record 
 UPDATE inventory
-SET description = REPLACE(description, 'small interiors', 'a huge interior')
-WHERE make = 'GM' AND model = 'Hummer';
+SET description = REPLACE(description, 'a huge interior', 'a small interior')
+WHERE inventory_id = 10;
 
--- Select make and model from inventory with classification name from classification for 'Sport' category
-SELECT i.make, i.model, c.classification_name
-FROM inventory i
-INNER JOIN classification c ON i.classification_id = c.classification_id
-WHERE c.classification_name = 'Sport';
+-- select make and model, join classification and inventory, where classification == "Sport"
+SELECT make, model, classification_name FROM inventory
+INNER JOIN classification
+ON inventory.classification_id = classification.classification_id
+WHERE classification_name = 'Sport';
 
--- Update all records in inventory to modify file path in inv_image and inv_thumbnail
+-- update image paths
 UPDATE inventory
-SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+SET inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/'), 
+    inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/')
+WHERE inv_thumbnail NOT LIKE '/images/vehicles/%'
+AND inv_image NOT LIKE '/images/vehicles/%';
