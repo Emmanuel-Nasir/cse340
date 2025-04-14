@@ -1,5 +1,5 @@
 -- insert Tony Stark's info into the account table
-INSERT INTO public.account (first_name, last_name, email, password)
+INSERT INTO public.account (account_firstname, account_lastname, account_email, account_password)
 VALUES ('Tony', 'Stark', 'tony@starkent.com', 'Iam1ronM@n');
 
 -- modify the Stark record to account_type = Admin
@@ -9,16 +9,16 @@ WHERE account_id = 1;
 
 -- delete the Stark record
 DELETE FROM account
-WHERE first_name = 'Tony'
+WHERE account_firstname = 'Tony'
 AND account_id = 1;
 
 -- modify the record 
 UPDATE inventory
-SET description = REPLACE(description, 'a huge interior', 'a small interior')
-WHERE inventory_id = 10;
+SET inv_description = REPLACE(inv_description, 'a huge interior', 'a small interior')
+WHERE inv_id = 10;
 
 -- select make and model, join classification and inventory, where classification == "Sport"
-SELECT make, model, classification_name FROM inventory
+SELECT inv_make, inv_model, classification_name FROM inventory
 INNER JOIN classification
 ON inventory.classification_id = classification.classification_id
 WHERE classification_name = 'Sport';

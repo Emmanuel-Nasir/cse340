@@ -1,432 +1,477 @@
-:before,
- *:after {
-   box-sizing: border-box;
- }
- body {
-   font-family: Georgia, 'Times New Roman', Times, serif;
- }
- img {
-   height: 100%;
- }
- .checkers {
-   display: none;
- }
- 
- /* header styles */
- header a, .own-now, h1, h2, h3, h4, h5, h6 {
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   text-decoration: none;
-   color: black;
- }
- .siteName {
-   font-size: 2em;
-   text-align: left;
- }
- #tools {
-   text-align: right;
- }
- #top-header {
-   display: flex;
-   justify-content: space-between;
-   padding: 1em;
-   padding-bottom: .2em;
- }
- 
- /* navigation styles */
- nav > ul > li > a {
-   text-decoration: none;
-   color: white;
- }
- nav > ul {
-   padding: 0;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-around;
-   padding: 1em;
- }
- nav {
-   background-color: black;
- }
- 
- .success, .error, .notice {
-   list-style: none;
-   padding: 0;
-   max-width: 30em;
-   margin-bottom: .6em;
- }
- .success li, .error li, .notice li {
-   padding: 1em;
-   margin: 1em;
-   border-radius: 1em;
- }
- .success li {
-   background-color: rgb(157, 219, 157);
-   border: 3px solid rgb(125, 194, 125);
- }
- .error li {
-   background-color: rgb(236, 129, 129);
-   border: 3px solid rgb(216, 103, 103);
- }
- .notice li {
-   background-color: rgb(245, 211, 119);
-   border: 3px solid rgb(244, 196, 63);
- }
- 
- /* hero */
- .hero-grid {
-   display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   grid-template-rows: 1fr 1fr 1fr;
- }
- .hero-grid img {
-   width: 100%;
-   height: auto;
-   justify-self: center;
-   grid-column: 1/-1;
-   grid-row: 1/-1;
- }
- .hero-grid div {
-   background-color: rgba(255, 255, 255, 0.581);
-   color: cornflowerblue;
-   padding-left: 1em;
-   padding-right: 1em;
-   width: 100%;
-   grid-column: 1/2;
-   grid-row: 1/-1;
- }
- .hero-grid .own-now {
-   background-color: cornflowerblue;
-   color: black;  
-   text-align: center;
-   padding: 1em;
- }
- 
- /* upgrades */
- .upgrade-grid {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
- }
- .upgrades {
-   text-align: center;
- }
- .upgrade {
-   background-color:dodgerblue;
-   border: 2px solid gray;
-   min-height: 5em;
-   text-align: center;
-   margin: .5em;
-   height: 60%;
- }
- .upgrades h2 {
-   text-align: left;
- }
- .upgrade img {
-   padding: .6em;
- }
- 
- /* class pages */
- #inv-display {
-   display: grid;
-   gap: 1em;
-   list-style: none;
-   /* padding: 0; */
-   padding: 1em;
-   justify-content: center;
- }
- 
- #inv-display li img {
-   /* height: 100%; */
-   max-height: 50%;
- }
- #inv-display li {
-   /* height: 100%; */
-   /* width: 100%; */
-   max-width: 25em;
-   background-color: black;
-   border-radius: 1.5em;
-   /* margin: 1em; */
-   padding: 2em;
-   text-align: center;
- }
- 
- .namePrice {
-   color: white;
- }
- .namePrice h2 > a {
-   font-family: inherit;
-   color: white;
-   text-decoration: none;
- }
- 
- #singleVehicleWrapper {
-   display: grid;
- }
- #singleVehicleWrapper img {
-   width: 99%;
-   margin: auto;
- }
- #singleVehicleDetails {
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   list-style: none;
-   padding: 0;
- }
- #singleVehicleDetails li:nth-child(even) {
-   background-color: gainsboro;
- }
- #singleVehicleDetails li h2 {
-   font-size: 1.2em;
-   margin: 0;
-   padding: 0;
- }
- #singleVehicleDetails li {
-   font-size: 1.2em;
-   padding: .8em;
-   border-radius: .5em;
- }
- 
- /* MANAGEMENT PAGE */
- .management-links {
-   padding: 1em;
-   margin-top: -2em;
-   margin-bottom: -2em;
-   display: flex;
-   flex-direction: column;
-   flex-wrap: wrap;
-   justify-content: flex-start;
- }
- .management-links a {
-   padding: .6em;
-   margin: 1em;
-   text-decoration: none;
-   text-align: center;
-   font-size: 1.1em;
-   color: black;
-   border: 3px solid rgb(34, 95, 207);
-   background-color: rgb(168, 197, 250);
-   border-radius: 15px;
- }
- 
- /* BASE FORM STYLING */
- .form label {
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   margin-bottom: .1em;
- }
- .form {
-   max-width: 30em;
-   margin: 0 auto;
-   /* padding: 2.5em; */
-   font-size: 1.2em;
-   border: 3px solid rgb(34, 95, 207);
-   background-color: rgb(168, 197, 250);
-   border-radius: 15px;
- }
- .form--fieldset {
-   /* width: 80%; */
-   padding: 0 2em;
-   margin: 0 auto;
-   border: none;
-   display: flex;
-   flex-direction: column;
- }
- .form--fieldset input, select {
-   outline: none;
-   border: 2px solid lightgray;
-   border-radius: 10px;
-   min-height: 40px;
-   max-width: 300px;
-   margin-bottom: 1em;
- }
- .form input:focus, .form--fieldset input:focus {
-   outline: none;
-   border: 3px solid rgb(34, 95, 207);
- }
- .form--fieldset input:valid {
-   border: 3px solid rgb(125, 194, 125);
- }
- .form--fieldset input:not(:placeholder-shown):invalid {
-   border: 3px solid rgb(216, 103, 103);
- }
- .form--fieldset input[type="submit"] {
-   margin: 0 auto;
-   min-width: 8em;
-   font-size: large;
-   color: white;
-   background-color: black;
-   border: none;
-   border-radius: 15px;
- }
- 
- /* LOGIN FORM */
- .login-form--fieldset {
-   margin-top: 1.5em;
- }
- .login-form p:last-child {
-   text-align: center;
- }
- .login-form p:last-child a {
-   color: rgb(20, 66, 152);
- }
- 
- /* REGISTER FORM */
- .register-form p:last-child,
- .register-form p:first-child {
-   text-align: center;
- }
- .register-form p:last-child a {
-   color: rgb(20, 66, 152);
- }
- 
- /* ADDCLASS FORM */
- .addclass-form p:first-child {
-   text-align: center;
- }
- .addclass-form--fieldset input[type="submit"] {
-   margin-bottom: 1em;
-   padding: 0 1em 0 1em;
- }
- 
- /* ADDVEHICLE FORM */
- .addvehicle-form p:first-child {
-   text-align: center;
- }
- .addvehicle-form--fieldset input[type="submit"] {
-   margin-bottom: 1em;
- }
- 
- /* EDITVEHICLE FORM */
- #updateBtn:disabled {
-   background-color: rgba(0, 0, 0, 0.5);
-   color: rgba(255, 255, 255, 0.6);
- }
- 
- /* DELETECONFIRM FORM */
- /* #deleteForm {
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
- } */
- input[readonly] {
-   outline: none;
-   border: 3px solid rgb(34, 95, 207);
- }
- 
- .manage-inventory p {
-   font-size: 1.1em;
-   margin-bottom: .6em;
- }
- .manage-inventory table {
-   border-collapse: collapse;
-   margin-left: 2em;
-   width: 70%;
- }
- .manage-inventory th {
-   text-align: left;
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   padding: 0 1em;
- }
- .manage-inventory table td {
-   height: 50px;
-   min-width: 5em;
-   text-align: center;
- }
- .manage-inventory table tr td:first-child {
-   padding: 0 1em;
-   text-align: left;
- }
- .manage-inventory table tr td:nth-child(1n + 2) {
-   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-   font-weight: 500;
- }
- .manage-inventory table tbody tr:nth-child(odd) {
-   border: 1.5px solid rgb(211, 211, 211);
- }
- .manage-inventory table tbody tr:nth-child(even) {
-   background-color: rgb(233, 233, 233);
-   border: 1.5px solid rgb(211, 211, 211);
- }
- 
- .manage-inventory a {
-   text-decoration: none;
-   color: rgb(20, 66, 152);
-   transition: font-size .2s;
- }
- .manage-inventory a:hover {
-   font-size: 1.2em;
- }
- 
- .bubble {
-   height: 12px;
-   width: 12px;
-   border-radius: 12px;
- }
- .false {
-   background-color: cornflowerblue;
- }
- .true {
-   border: 2px solid gray;
- }
- 
- /* footer */
- footer {
-   padding: 1em;
-   padding-bottom: .2em;
- }
- 
- /* phone */
- @media screen and (min-width: 700px) {
-   /* body + main + checkerboard */
-   body {
-     background-image: url("/images/site/checkerboard.jpg");
-     background-repeat:repeat;
-     background-size: 35em 35em;
-   }
-   #wrapper {
-     background-color: white;
-     border-radius: 1.2em;
-     border: 3px solid rgb(34, 95, 207);
-     width: 80%;
-     margin: auto;
-     /* display: none; */
-   }
- 
-   /* main + nav sizing */
-   main, nav {
-     margin: 1em;
-   }
- 
-   /* reviews + upgrades */
-   .extra-grid {
-     display: flex;
-     flex-direction: row-reverse;
-     justify-content: space-around;
-   }
- }
- 
- /* tablet */
- @media screen and (min-width: 1100px) {
-   #inv-display {
-     grid-template-columns: 1fr 1fr;
-     justify-items: center;
-   }
-   #inv-display li {
-     width: 25em;
-   }
- 
-   /* single car view */
-   #singleVehicleWrapper {
-     grid-template-columns: 1fr 1fr;
-   }
-   #singleVehicleWrapper img {
-     width: auto;
-     max-height: 14em;
-   }
- }
- 
- /* laptop/desktop */
- @media screen and (min-width: 1700px) {
-   #inv-display {
-     grid-template-columns: 1fr 1fr 1fr;
-   }
-   #singleVehicleWrapper img {
-     width: auto;
-     max-height: 25em;
-   }
- }
+/* Reset and Base Styles */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin: 0; /* Reset default body margin */
+}
+
+img {
+  max-width: 100%; /* Make images responsive */
+  height: auto; /* Maintain aspect ratio */
+  height: 15rem; /* Set a default height */
+}
+
+.checkers {
+  display: none;
+}
+
+/* Typography and Links */
+a,
+.own-now,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-decoration: none;
+  color: black;
+  margin: 0; /* Reset default heading margins */
+}
+
+/* Header Styles */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically align items */
+  padding: 1em;
+  padding-bottom: 0.2em;
+}
+
+.siteName {
+  font-size: 2em;
+  text-align: left;
+}
+
+#tools {
+  text-align: right;
+}
+
+/* Navigation Styles */
+nav {
+  background-color: black;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 1em;
+  margin: 0; /* Reset default ul margin */
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5em 1em; /* Add padding to links */
+  display: block; /* Make links fill list item */
+}
+
+nav ul li:hover {
+  background-color: rgb(94, 171, 238);
+}
+
+/* Messages (Success, Error, Notice) */
+.success,
+.error,
+.notice {
+  list-style: none;
+  padding: 0;
+  max-width: 30em;
+  margin: 0.6em auto; /* Center messages */
+}
+
+.success li,
+.error li,
+.notice li {
+  padding: 1em;
+  margin: 0.5em;
+  border-radius: 1em;
+}
+
+.success li {
+  background-color: rgb(157, 219, 157);
+  border: 3px solid rgb(125, 194, 125);
+}
+
+.error li {
+  background-color: rgb(236, 129, 129);
+  border: 3px solid rgb(216, 103, 103);
+}
+
+.notice li {
+  background-color: rgb(245, 211, 119);
+  border: 3px solid rgb(244, 196, 63);
+}
+
+/* Hero Section */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  position: relative; /* For absolute positioning of text */
+}
+
+.hero-grid img {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  object-fit: cover; /* Cover the grid area */
+}
+
+.hero-grid div {
+  background-color: rgba(255, 255, 255, 0.581);
+  color: cornflowerblue;
+  padding: 1em;
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center text vertically */
+}
+
+.hero-grid .own-now {
+  background-color: cornflowerblue;
+  color: black;
+  text-align: center;
+  padding: 1em;
+  align-self: flex-end; /* Align to the end of the container */
+}
+
+/* Upgrades Section */
+.upgrade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em; /* Add gap between grid items */
+}
+
+.upgrades {
+  text-align: center;
+  padding: 1em; /* Add padding to the section */
+}
+
+.upgrade {
+  background-color: dodgerblue;
+  border: 2px solid gray;
+  min-height: 5em;
+  text-align: center;
+  margin: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 0.5em;
+}
+
+.upgrades h2 {
+  text-align: left;
+  padding-left: 0.5em;
+}
+
+.upgrade img {
+  padding: 0.6em;
+  max-width: 80%; /* Make images responsive within their container */
+  align-self: center;
+}
+
+/* Inventory Display */
+#inv-display {
+  display: grid;
+  gap: 1em;
+  list-style: none;
+  padding: 1em;
+  justify-content: center;
+}
+
+#inv-display li {
+  max-width: 25em;
+  background-color: black;
+  border-radius: 1.5em;
+  padding: 2em;
+  text-align: center;
+}
+
+#inv-display li img {
+  max-height: 50%;
+  object-fit: contain; /* Contain the image within its container */
+}
+
+.namePrice {
+  color: white;
+}
+
+.namePrice h2 a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Single Vehicle View */
+#singleVehicleWrapper {
+  display: grid;
+}
+
+#singleVehicleWrapper img {
+  width: 99%;
+  margin: auto;
+}
+
+#singleVehicleDetails {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  list-style: none;
+  padding: 0;
+}
+
+#singleVehicleDetails li {
+  font-size: 1.2em;
+  padding: 0.8em;
+  border-radius: 0.5em;
+}
+
+#singleVehicleDetails li:nth-child(even) {
+  background-color: gainsboro;
+}
+
+#singleVehicleDetails li h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Management Page */
+.management-links {
+  padding: 1em;
+  margin: -2em auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center links in column */
+}
+
+.management-links a {
+  padding: 0.6em 1em;
+  margin: 0.5em;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.1em;
+  color: black;
+  border: 3px solid rgb(34, 95, 207);
+  background-color: rgb(168, 197, 250);
+  border-radius: 15px;
+  width: 100%; /* Make links full width */
+  max-width: 20em; /* Limit link width */
+}
+
+/* Form Styles */
+.form {
+  max-width: 30em;
+  margin: 1em auto;
+  font-size: 1.2em;
+  border: 3px solid rgb(34, 95, 207);
+  background-color: rgb(168, 197, 250);
+  border-radius: 15px;
+  padding: 1em; /* Add padding to the form */
+}
+
+.form label {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  display: block; /* Make labels block-level */
+  margin-bottom: 0.1em;
+}
+
+.form--fieldset {
+  padding: 0 2em;
+  margin: 0 auto;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.form--fieldset input,
+.form--fieldset select {
+  outline: none;
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  min-height: 40px;
+  width: 100%; /* Make inputs full width */
+  max-width: 300px;
+  margin-bottom: 1em;
+}
+
+.form--fieldset input:focus,
+.form--fieldset input:focus {
+  outline: none;
+  border: 3px solid rgb(34, 95, 207);
+}
+
+.form--fieldset input:valid {
+  border: 3px solid rgb(125, 194, 125);
+}
+
+.form--fieldset input:not(:placeholder-shown):invalid {
+  border: 3px solid rgb(216, 103, 103);
+}
+
+.form--fieldset input[type="submit"] {
+  margin: 1em auto;
+  min-width: 8em;
+  font-size: large;
+  color: white;
+  background-color: black;
+  border: none;
+  border-radius: 15px;
+}
+
+/* Specific Form Styles */
+.login-form--fieldset,
+.register-form p:first-child,
+.register-form p:last-child,
+.addclass-form p:first-child,
+.addvehicle-form p:first-child {
+  text-align: center;
+}
+
+.login-form p:last-child a,
+.register-form p:last-child a {
+  color: rgb(20, 66, 152);
+}
+
+#updateBtn:disabled {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input[readonly] {
+  outline: none;
+  border: 3px solid rgb(34, 95, 207);
+}
+
+/* Manage Inventory */
+.manage-inventory {
+  padding: 1em;
+}
+
+.manage-inventory p {
+  font-size: 1.1em;
+  margin-bottom: 0.6em;
+}
+
+.manage-inventory table {
+  border-collapse: collapse;
+  margin: 1em auto;
+  width: 90%; /* Make table responsive */
+}
+
+.manage-inventory th,
+.manage-inventory table td {
+  text-align: left;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 0.5em;
+  text-align: center;
+}
+
+.manage-inventory table td:first-child {
+  text-align: left;
+}
+
+.manage-inventory table tr td:nth-child(1n + 2) {
+  font-weight: 500;
+}
+
+.manage-inventory table tbody tr:nth-child(odd),
+.manage-inventory table tbody tr:nth-child(even) {
+  border: 1.5px solid rgb(211, 211, 211);
+}
+
+.manage-inventory table tbody tr:nth-child(even) {
+  background-color: rgb(233, 233, 233);
+}
+
+.manage-inventory a {
+  text-decoration: none;
+  color: rgb(20, 66, 152);
+  transition: font-size 0.2s;
+}
+
+.manage-inventory a:hover {
+  font-size: 1.2em;
+}
+
+.bubble {
+  height: 12px;
+  width: 12px;
+  border-radius: 12px;
+}
+
+.false {
+  background-color: cornflowerblue;
+}
+
+.true {
+  border: 2px solid gray;
+}
+
+/* Footer */
+footer {
+  padding: 1em;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media screen and (min-width: 700px) {
+  body {
+    background-image: url("/images/site/checkerboard.jpg");
+    background-repeat: repeat;
+    background-size: 35em 35em;
+  }
+
+  #wrapper {
+    background-color: white;
+    border-radius: 1.2em;
+    border: 3px solid rgb(34, 95, 207);
+    width: 80%;
+    margin: 1em auto;
+  }
+
+  main,
+  nav {
+    margin: 1em;
+  }
+
+  .extra-grid {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  #inv-display {
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+  }
+
+  #inv-display li {
+    width: 25em;
+  }
+
+  #singleVehicleWrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #singleVehicleWrapper img {
+    max-height: 14em;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  #inv-display {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  #singleVehicleWrapper img {
+    max-height: 25em;
+  }
+}
