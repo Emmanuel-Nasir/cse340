@@ -5,28 +5,25 @@ const Util = {}
  * Constructs the nav HTML unordered list
  ************************** */
 Util.getNav = async function (req, res, next) {
-  let data = await invModel.getClassifications()
-  console.log(data)
-  let list = "<ul>"
-  list += '<li><a href="/" title="Home page">Home</a></li>'
-  data.rows.forEach((row) => {
-    list += "<li>"
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>"
-    list += "</li>"
-  })
-  list += "</ul>"
-  return list
+  try {
+    let data = await invModel.getClassifications()
+    let list = "<ul>"
+    list += '<li><a href="/" title="Home page">Home</a></li>'
+    data.rows.forEach((row) => {
+      list += `<li>
+        <a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">
+          ${row.classification_name}
+        </a>
+      </li>`
+    })
+    list += "</ul>"
+    return list
+  } catch (err) {
+    console.error("getNav failed:", err.message)
+    return "<ul><li><a href='/'>Home</a></li></ul>" // fallback nav
+  }
 }
-
-module.exports = Util
-
+ 
 
 
 /* **************************************
@@ -61,3 +58,7 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+module.exports = Util
