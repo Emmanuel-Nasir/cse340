@@ -16,6 +16,7 @@ const utilities = require("./utilities");
 const pool = require("./database")
 const session = require("express-session");
 const accountRoute = require("./routes/accountRoute")
+const bodyParser = require("body-parser")
 
 
 /* ***********************
@@ -42,6 +43,9 @@ app.use(function(req,res,next){
   res.locals.messages = require('express-messages')(req,res)
   next()
 })
+
+app.use(bodyParser.json()) 
+app.use(bodyParser.urlencoded({ extended: true }))
 
 /* ***********************
  * Routes
