@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+<% include ../partials/navigation %>
+
+<h1>Your Profile</h1>
+
+<% if (messages.notice) { %>
+  <p class="notice"><%= messages.notice %></p>
+<% } %>
+
+<form action="/account/profile" method="POST">
+  <label for="bio">Bio</label>
+  <textarea name="bio" id="bio"><%= profile?.bio || "" %></textarea>
+
+  <label for="location">Location</label>
+  <input type="text" name="location" id="location" value="<%= profile?.location || "" %>" />
+
+  <button type="submit">Update Profile</button>
+</form>
+
+<% include ../partials/footer %>

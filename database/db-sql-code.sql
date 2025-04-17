@@ -69,6 +69,13 @@ INSERT INTO public.inventory (
     inv_color,
     classification_id
   )
+  CREATE TABLE IF NOT EXISTS user_profiles (
+  profile_id SERIAL PRIMARY KEY,
+  account_id INTEGER REFERENCES account(account_id) ON DELETE CASCADE,
+  bio TEXT,
+  location VARCHAR(100)
+);
+
 VALUES   (
     'Chevy',
     'Camaro',

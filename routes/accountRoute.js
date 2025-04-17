@@ -5,6 +5,8 @@ const accountController = require("../controllers/accountController")
 const regValidate = require("../utilities/account-validation") 
 const utilities = require("../utilities")
 const checkLogin = require("../middleware/checkLogin")
+const profileController = require("../controllers/profileController");
+
 
 // ===== PUBLIC ROUTES =====
 
@@ -62,5 +64,8 @@ router.post(
   regValidate.checkPasswordData,
   utilities.handleErrors(accountController.updatePassword)
 )
+
+router.get("/profile", utilities.checkLogin, profileController.buildProfile);
+router.post("/profile", utilities.checkLogin, profileController.updateProfile);
 
 module.exports = router
