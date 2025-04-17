@@ -14,14 +14,12 @@
     <!-- Flash messages if needed -->
     <!-- <div class="success">Registration successful!</div> -->
     <!-- <div class="error">There was an error registering.</div> -->
-    <% if (errors) { %>
-        <ul class="notice">
-          <% errors.array().forEach(error => { %>
-            <li><%= error.msg %></li>
-          <% }) %>
-        </ul>
-      <% } %>
-      
+    <% if (errors && errors.length > 0) { %>
+      <% errors.forEach(error => { %>
+        <div class="alert alert-warning"><%= error.msg %></div>
+      <% }) %>
+    <% } %>
+    
 
     <form action="/account/register" method="post">
       <div>

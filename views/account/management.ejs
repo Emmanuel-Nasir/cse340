@@ -1,0 +1,8 @@
+<h1>Welcome, <%= accountData.account_firstname %>!</h1>
+
+<ul>
+  <li><a href="/account/update">Update Account Info</a></li>
+  <% if (accountData.account_type === 'Admin') { %>
+    <li><a href="/inv">Inventory Management</a></li>
+  <% } %>
+</ul>

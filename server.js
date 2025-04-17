@@ -17,11 +17,17 @@ const pool = require("./database")
 const session = require("express-session");
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
-
+const addAccountData = require("./middleware/accountContext")
 
 /* ***********************
  * View Engine and Templates
  *************************/
+
+
+app.use((req, res, next) => {
+  res.locals.clientLoggedIn = req.session && req.session.user ? true : false;
+  next();
+});
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout","./layouts/layout")//not at views root
@@ -38,12 +44,24 @@ app.use(
     cookie:{secure:false}
   })
 )
+
+
 app.use(require('connect-flash')())
+app.use((req, res, next) => {
+  res.locals.message = req.flash("notice")
+  next()
+})
+
 app.use(function(req,res,next){
   res.locals.messages = require('express-messages')(req,res)
   next()
 })
-
+app.use((req, res, next) => {
+  res.locals.clientLoggedIn = req.session && req.session.user ? true : false;
+  res.locals.userName = req.session.user ? req.session.user.firstName : "";
+  next();
+});
+app.use(addAccountData)
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true }))
 
