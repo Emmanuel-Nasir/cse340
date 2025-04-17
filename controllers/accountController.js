@@ -1,142 +1,211 @@
-const bcrypt = require("bcryptjs")
-const utilities = require("../utilities/")
-const accountModel = require("../models/account-model")
+const bcrypt = require("bcryptjs");
+const utilities = require("../utilities/");
+const accountModel = require("../models/account-model");
 
 // Renders login page
 async function buildLogin(req, res) {
-  let nav = await utilities.getNav()
-  res.render("account/login", {
-    title: "Login",
-    nav,
-    // message: req.flash("notice"),
-    account_email: "",
-  })
+    let nav = await utilities.getNav();
+    res.render("account/login", {
+        title: "Login",
+        nav,
+        account_email: "",
+        messages: req.flash("notice"),
+    });
 }
 
 // Renders registration page
 async function buildRegister(req, res) {
-  let nav = await utilities.getNav()
-  res.render("account/register", {
-    title: "Register",
-    nav,
-    errors: null,
-    // notice: req.flash("notice"),
-    account_firstname: "",
-    account_lastname: "",
-    account_email: "",
-  })
+    let nav = await utilities.getNav();
+    res.render("account/register", {
+        title: "Register",
+        nav,
+        errors: null,
+        account_firstname: "",
+        account_lastname: "",
+        account_email: "",
+        messages: req.flash("notice"),
+    });
 }
 
 // Handles new account registration
 async function registerAccount(req, res) {
-  let nav = await utilities.getNav()
-  const { account_firstname, account_lastname, account_email, account_password } = req.body
+    let nav = await utilities.getNav();
+    const { firstname, lastname, email, password } = req.body;
 
-  try {
-    const existingAccount = await accountModel.getAccountByEmail(account_email)
+    try {
+        // Input validation
+        if (!firstname || !lastname || !email || !password) {
+            req.flash("notice", "All fields are required.");
+            return res.status(400).render("account/register", {
+                title: "Register",
+                nav,
+                errors: null,
+                firstname,
+                lastname,
+                email,
+                messages: req.flash("notice"),
+            });
+        }
 
-    if (existingAccount.rows.length > 0) {
-      req.flash("notice", "That email is already in use.")
-      return res.status(400).render("account/register", {
-        title: "Register",
-        nav,
-        errors: null,
-        notice: req.flash("notice"),
-        account_firstname,
-        account_lastname,
-        account_email,
-      })
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            req.flash("notice", "Invalid email format.");
+            return res.status(400).render("account/register", {
+                title: "Register",
+                nav,
+                errors: null,
+                firstname,
+                lastname,
+                email,
+                messages: req.flash("notice"),
+            });
+        }
+
+        if (password.length < 12 || !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{12,}$/.test(password)) {
+            req.flash("notice", "Password must be at least 12 characters with numbers, uppercase, lowercase, and symbols.");
+            return res.status(400).render("account/register", {
+                title: "Register",
+                nav,
+                errors: null,
+                firstname,
+                lastname,
+                email,
+                messages: req.flash("notice"),
+            });
+        }
+
+        // Check for existing account
+        const existingAccount = await accountModel.getAccountByEmail(email);
+        if (existingAccount) {
+            req.flash("notice", "That email is already registered.");
+            return res.status(400).render("account/register", {
+                title: "Register",
+                nav,
+                errors: null,
+                firstname,
+                lastname,
+                email,
+                messages: req.flash("notice"),
+            });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Register new account
+        const regResult = await accountModel.registerAccount(firstname, lastname, email, hashedPassword);
+        if (!regResult) {
+            req.flash("notice", "Registration failed. Please try again.");
+            return res.status(500).render("account/register", {
+                title: "Register",
+                nav,
+                errors: null,
+                firstname,
+                lastname,
+                email,
+                messages: req.flash("notice"),
+            });
+        }
+
+        // Store user session after successful registration
+        req.session.user = regResult;
+
+        // Redirect to welcome page
+        req.flash("notice", `Welcome, ${firstname}!`);
+        return res.redirect("/welcome");
+        
+    } catch (error) {
+        console.error("Registration error:", error.message);
+        req.flash("notice", "An unexpected error occurred.");
+        return res.status(500).render("account/register", {
+            title: "Register",
+            nav,
+            errors: null,
+            firstname,
+            lastname,
+            email,
+            messages: req.flash("notice"),
+        });
     }
-
-    const hashedPassword = await bcrypt.hash(account_password, 10)
-
-    const regResult = await accountModel.registerAccount(
-      account_firstname,
-      account_lastname,
-      account_email,
-      hashedPassword
-    )
-
-    if (regResult.rows.length > 0) {
-      req.flash("notice", `Registration successful! Please log in.`)
-      return res.redirect("/account/login")
-    } else {
-      req.flash("notice", "Registration failed. Try again.")
-      return res.status(500).render("account/register", {
-        title: "Register",
-        nav,
-        errors: null,
-        notice: req.flash("notice"),
-        account_firstname,
-        account_lastname,
-        account_email,
-      })
-    }
-  } catch (error) {
-    console.error("Registration error:", error)
-    req.flash("notice", "An unexpected error occurred.")
-    return res.status(500).render("account/register", {
-      title: "Register",
-      nav,
-      errors: null,
-      notice: req.flash("notice"),
-      account_firstname,
-      account_lastname,
-      account_email,
-    })
-  }
 }
 
 // Handles login
 async function accountLogin(req, res) {
-  const { account_email, account_password } = req.body
-  let nav = await utilities.getNav()
-  const data = await accountModel.getAccountByEmail(account_email)
+    const { email, password } = req.body;
+    let nav = await utilities.getNav();
 
-  if (!data.rows.length) {
-    req.flash("notice", "Invalid email or password.")
-    return res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      account_email,
-      message: req.flash("notice"),
-    })
-  }
+    try {
+        console.log("Attempting login for:", email);
+        const account = await accountModel.getAccountByEmail(email);
 
-  const account = data.rows[0]
-  const match = await bcrypt.compare(account_password, account.account_password)
-  if (!match) {
-    req.flash("notice", "Invalid email or password.")
-    return res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      account_email,
-      message: req.flash("notice"),
-    })
-  }
+        if (!account) {
+            req.flash("notice", "No account found.");
+            return res.status(400).render("account/login", {
+                title: "Login",
+                nav,
+                email,
+                messages: { error: req.flash("notice") },
+            });
+        }
 
-  delete account.account_password
-  req.session.user = account
-  req.flash("notice", `Welcome back, ${account.account_firstname}.`)
-  return res.redirect("/account")
+        const match = await bcrypt.compare(password, account.account_password);
+        if (!match) {
+            req.flash("notice", "Incorrect password.");
+            return res.status(400).render("account/login", {
+                title: "Login",
+                nav,
+                email,
+                messages: { error: req.flash("notice") },
+            });
+        }
+
+        delete account.account_password;
+        req.session.user = account;
+        req.flash("notice", `Welcome back, ${account.account_firstname}!`);
+        return res.redirect("/account");
+    } catch (error) {
+        console.error("Login error:", error.message);
+        req.flash("notice", "An unexpected error occurred.");
+        return res.status(500).render("account/login", {
+            title: "Login",
+            nav,
+            email,
+            messages: { error: req.flash("notice") },
+        });
+    }
 }
 
 // Account management page
 async function buildAccountManagement(req, res) {
-  let nav = await utilities.getNav()
-  const accountData = res.locals.accountData
-  res.render("account/management", {
-    title: "Account Management",
-    nav,
-    accountData,
-    message: req.flash("notice")
-  })
+    let nav = await utilities.getNav();
+    const accountData = req.session.user || null;
+    res.render("account/management", {
+        title: "Account Management",
+        nav,
+        accountData,
+        messages: req.flash("notice"),
+    });
+}
+
+// Welcome page after registration
+async function buildWelcomePage(req, res) {
+    let nav = await utilities.getNav();
+    if (!req.session.user) {
+        req.flash("notice", "You must be logged in to view this page.");
+        return res.redirect("/account/login");
+    }
+    res.render("account/welcome", {
+        title: "Welcome!",
+        nav,
+        user: req.session.user,
+        messages: req.flash("notice"),
+    });
 }
 
 module.exports = {
-  buildLogin,
-  buildRegister,
-  registerAccount,
-  accountLogin,
-  buildAccountManagement,
-}
+    buildLogin,
+    buildRegister,
+    registerAccount,
+    accountLogin,
+    buildAccountManagement,
+    buildWelcomePage,
+};

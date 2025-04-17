@@ -1,13 +1,20 @@
 const express = require("express")
 const router = new express.Router()
+
 const accountController = require("../controllers/accountController")
-const regValidate = require("../utilities/account-validation")
-const utilities = require("../utilities/")
+const regValidate = require("../utilities/account-validation") 
+const utilities = require("../utilities")
 const checkLogin = require("../middleware/checkLogin")
 
+// ===== PUBLIC ROUTES =====
 
+// GET login page
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
+
+// GET registration page
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+
+// POST registration form
 router.post(
   "/register",
   regValidate.registrationRules(),
@@ -15,24 +22,30 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 )
 
-// Middleware to protect these routes
-router.get("/", checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
-router.get("/update", checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
-
-
-router.post(
-  "/register",
-  regValidate.registrationRules(), // ✅ not registationRules
-  regValidate.checkRegData,
-  utilities.handleErrors(accountController.registerAccount)
-)
-
-// ✅ POST route for login (you’re missing this!)
+// POST login form
 router.post(
   "/login",
-  utilities.handleErrors(accountController.accountLogin) // Make sure this exists in your controller
+  utilities.handleErrors(accountController.accountLogin)
 )
 
+
+// ===== PROTECTED ROUTES (Requires Login) =====
+
+// GET account management dashboard
+router.get(
+  "/",
+  checkLogin,
+  utilities.handleErrors(accountController.buildAccountManagement)
+)
+
+// GET account update page
+router.get(
+  "/update",
+  checkLogin,
+  utilities.handleErrors(accountController.buildUpdateAccount)
+)
+
+// POST update account info (name, email)
 router.post(
   "/update",
   checkLogin,
@@ -41,6 +54,7 @@ router.post(
   utilities.handleErrors(accountController.updateAccount)
 )
 
+// POST update password
 router.post(
   "/update-password",
   checkLogin,
