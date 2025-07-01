@@ -46,10 +46,8 @@ async function registerAccount(req, res) {
   }
 
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Register the account
     const regResult = await accountModel.registerAccount(
       firstname,
       lastname,
@@ -105,8 +103,52 @@ async function buildLogin(req, res) {
   }
 }
 
+/* ===============================
+ * Process Login
+ * =============================== */
+async function loginAccount(req, res) {
+  const { email, password } = req.body;
+  const nav = await utilities.getNav();
+
+  const account = await accountModel.getAccountByEmail(email);
+
+  if (!account) {
+    req.flash("error", "No account found with that email.");
+    return res.status(401).render("account/login", {
+      title: "Login",
+      nav,
+      messages: req.flash("error"),
+      email,
+    });
+  }
+
+  const match = await bcrypt.compare(password, account.account_password);
+  if (!match) {
+    req.flash("error", "Incorrect password.");
+    return res.status(401).render("account/login", {
+      title: "Login",
+      nav,
+      messages: req.flash("error"),
+      email,
+    });
+  }
+
+  // Save user session
+  req.session.account = {
+    account_id: account.account_id,
+    account_firstname: account.account_firstname,
+    account_lastname: account.account_lastname,
+    account_email: account.account_email,
+    account_type: account.account_type,
+  };
+
+  req.flash("notice", `Welcome back, ${account.account_firstname}!`);
+  res.redirect("/account");
+}
+
 module.exports = {
   buildRegister,
   registerAccount,
   buildLogin,
+  loginAccount,
 };
